@@ -1,0 +1,35 @@
+### Listar produtos (GET)
+GET http://localhost:8080/produtos
+
+
+### Criar um produto (POST)
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "codigo": "PROD003",
+  "nome": "Café Expresso",
+  "categoria": "Bebidas",
+  "unidade": "un",
+  "precoCompra": 5.00,
+  "precoVenda": 12.00,
+  "estoqueAtual": 0,
+  "estoqueMinimo": 0,
+  "status": "ATIVO"
+}
+
+
+
+### Listar fornecedores (GET)
+GET http://localhost:8080/fornecedores
+
+### Criar um fornecedor (POST)
+POST http://localhost:8080/fornecedores
+Content-Type: application/json
+
+
+{
+  "nome": "Fornecedor Teste",
+  "cnpj": "12.345.678/0001-90",
+  "contato": "contato@fornecedor.com"
+}
