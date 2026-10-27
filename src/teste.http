@@ -7,13 +7,13 @@ POST http://localhost:8080/produtos
 Content-Type: application/json
 
 {
-  "codigo": "PROD003",
+  "codigo": "PROD005",
   "nome": "Café Expresso",
   "categoria": "Bebidas",
   "unidade": "un",
   "precoCompra": 5.00,
   "precoVenda": 12.00,
-  "estoqueAtual": 0,
+  "estoqueAtual": 8,
   "estoqueMinimo": 0,
   "status": "ATIVO"
 }
