@@ -33,3 +33,21 @@ Content-Type: application/json
   "cnpj": "12.345.678/0001-90",
   "contato": "contato@fornecedor.com"
 }
+### Consultar produto por ID
+GET http://localhost:8080/produtos/2
+
+### Atualizar produto existente (por ID)
+PUT http://localhost:8080/produtos/2
+Content-Type: application/json
+
+{
+  "codigo": "PROD005",
+  "nome": "Café Expresso Atualizado",
+  "categoria": "Bebidas",
+  "unidade": "un",
+  "precoCompra": 5.50,
+  "precoVenda": 13.00,
+  "estoqueAtual": 10,
+  "estoqueMinimo": 2,
+  "status": "ATIVO"
+}
