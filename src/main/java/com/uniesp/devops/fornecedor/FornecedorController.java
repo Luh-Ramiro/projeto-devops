@@ -4,21 +4,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/fornecedores")
 public class FornecedorController {
 
     @Autowired
-    private FornecedorRepository repository;
+    private FornecedorService service;
 
     @GetMapping
     public List<Fornecedor> listar() {
-        return repository.findAll();
+        return service.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Fornecedor> buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id);
     }
 
     @PostMapping
     public Fornecedor criar(@RequestBody Fornecedor fornecedor) {
-        return repository.save(fornecedor);
+        return service.guardar(fornecedor);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id) {
+        service.deletar(id);
     }
 }
