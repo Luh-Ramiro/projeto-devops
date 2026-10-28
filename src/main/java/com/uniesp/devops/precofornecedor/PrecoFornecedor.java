@@ -3,6 +3,7 @@ package com.uniesp.devops.precofornecedor;
 import com.uniesp.devops.fornecedor.Fornecedor;
 import com.uniesp.devops.produto.Produto;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "preco_fornecedor")
@@ -21,6 +22,8 @@ public class PrecoFornecedor {
     private Produto produto;
 
     private Double precoUnitario;
+
+    private LocalDate dataImportacao;
 
     public Long getId() {
         return id;
@@ -52,5 +55,13 @@ public class PrecoFornecedor {
 
     public void setPrecoUnitario(Double precoUnitario) {
         this.precoUnitario = precoUnitario;
+    }
+
+    public LocalDate getDataImportacao() {
+        return dataImportacao;
+    }
+
+    public void setDataImportacao(LocalDate dataImportacao) {
+        this.dataImportacao = dataImportacao;
     }
 }
