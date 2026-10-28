@@ -68,3 +68,14 @@ Content-Type: application/json
   },
   "precoUnitario": 10.50
 }
+
+### Testar Upload de PDF
+POST http://localhost:8080/api/pdf/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="documento.pdf"
+Content-Type: application/pdf
+
+< ./main/resources/boleto.pdf
+--boundary--
