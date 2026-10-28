@@ -1,23 +1,16 @@
 package com.uniesp.devops.precofornecedor;
 
-import com.uniesp.devops.precofornecedor.PrecoFornecedor;
 import com.uniesp.devops.fornecedor.Fornecedor;
 import com.uniesp.devops.produto.Produto;
 import jakarta.persistence.*;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Entity
 @Table(name = "preco_fornecedor")
 public class PrecoFornecedor {
 
-    private Long id;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "fornecedor_id", nullable = false)
@@ -29,7 +22,6 @@ public class PrecoFornecedor {
 
     private Double precoUnitario;
 
-    // Construtores, Getters e Setters
     public Long getId() {
         return id;
     }
@@ -61,5 +53,4 @@ public class PrecoFornecedor {
     public void setPrecoUnitario(Double precoUnitario) {
         this.precoUnitario = precoUnitario;
     }
-
 }
