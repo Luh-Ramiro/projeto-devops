@@ -1,21 +1,22 @@
 package com.uniesp.devops.precofornecedor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
-public class PrecoFornecedorService {
+@RestController
+@RequestMapping("/precos")
+public class PrecoFornecedorController {
 
     @Autowired
-    private PrecoFornecedorRepository repository;
+    private PrecoFornecedorService service;
 
-    public List<PrecoFornecedor> listarTodos() {
-        return repository.findAll();
-    }
+    @GetMapping
+    public List<PrecoFornecedor> listar() { return service.listarTodos(); }
 
-    public PrecoFornecedor guardar(PrecoFornecedor precoFornecedor) {
-        return repository.save(precoFornecedor);
+    @PostMapping
+    public PrecoFornecedor criar(@RequestBody PrecoFornecedor precoFornecedor) {
+        return service.guardar(precoFornecedor);
     }
 }

@@ -48,5 +48,13 @@ public class PrecoFornecedorService {
             return "Sem alteração";
         }
       }
+
+    public List<PrecoFornecedor> listarTodos() {
+        return repository.findAll();
+    }
+
+    public PrecoFornecedor guardar(PrecoFornecedor precoFornecedor) {
+        return repository.save(precoFornecedor);
+      }
     }
 
