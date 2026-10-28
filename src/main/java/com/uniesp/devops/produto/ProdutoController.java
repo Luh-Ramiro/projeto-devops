@@ -1,6 +1,7 @@
 package com.uniesp.devops.produto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,15 +11,27 @@ import java.util.List;
 public class ProdutoController {
 
     @Autowired
-    private ProdutoRepository repository;
+    private ProdutoService produtoService;
 
     @GetMapping
-    public List<Produto> listar() {
-        return repository.findAll();
+    public List<Produto> listarTodos() {
+        return produtoService.listarTodos();
     }
 
     @PostMapping
-    public Produto criar(@RequestBody Produto produto) {
-        return repository.save(produto);
+    public Produto salvar(@RequestBody Produto produto) {
+        return produtoService.salvar(produto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Produto> buscarPorId(@PathVariable Long id) {
+        Produto produto = produtoService.buscarPorId(id);
+        return ResponseEntity.ok(produto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto produto) {
+        Produto produtoAtualizado = produtoService.atualizar(id, produto);
+        return ResponseEntity.ok(produtoAtualizado);
     }
 }

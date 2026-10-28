@@ -7,13 +7,13 @@ POST http://localhost:8080/produtos
 Content-Type: application/json
 
 {
-  "codigo": "PROD003",
+  "codigo": "PROD005",
   "nome": "Café Expresso",
   "categoria": "Bebidas",
   "unidade": "un",
   "precoCompra": 5.00,
   "precoVenda": 12.00,
-  "estoqueAtual": 0,
+  "estoqueAtual": 8,
   "estoqueMinimo": 0,
   "status": "ATIVO"
 }
@@ -33,3 +33,49 @@ Content-Type: application/json
   "cnpj": "12.345.678/0001-90",
   "contato": "contato@fornecedor.com"
 }
+### Consultar produto por ID
+GET http://localhost:8080/produtos/2
+
+### Atualizar produto existente (por ID)
+PUT http://localhost:8080/produtos/2
+Content-Type: application/json
+
+{
+  "codigo": "PROD005",
+  "nome": "Café Expresso Atualizado",
+  "categoria": "Bebidas",
+  "unidade": "un",
+  "precoCompra": 5.50,
+  "precoVenda": 13.00,
+  "estoqueAtual": 10,
+  "estoqueMinimo": 2,
+  "status": "ATIVO"
+}
+
+### Listar preços dos fornecedores (GET)
+GET http://localhost:8080/precos
+
+### Criar um vínculo de preço/fornecedor (POST)
+POST http://localhost:8080/precos
+Content-Type: application/json
+
+{
+  "fornecedor": {
+    "id": 1
+  },
+  "produto": {
+    "id": 2
+  },
+  "precoUnitario": 10.50
+}
+
+### Testar Upload de PDF
+POST http://localhost:8080/api/pdf/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="documento.pdf"
+Content-Type: application/pdf
+
+< ./main/resources/boleto.pdf
+--boundary--
