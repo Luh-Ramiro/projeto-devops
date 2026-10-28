@@ -156,19 +156,15 @@ bash
 
 Os testes das regras críticas de comparação de preços (aumento, redução, igualdade, novo item, preço zero e associação pendente) serão adicionados nos próximos marcos.
 
----
-
 ## 🔄 Pipeline de CI
 
-A ser implementado (marco E3): workflow do GitHub Actions acionado por `push` e `Pull Request`, com etapas de build e testes. Falhas nos testes reprovam o pipeline.
-
----
+Implementado: workflow do GitHub Actions acionado por `push` e `Pull Request`, com etapas de build e testes. Falhas nos testes reprovam a pipeline.
 
 ## ⚙️ Configuração e variáveis de ambiente
 
 Atualmente a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
 
-*Planejado (marco E4):* mover banco, portas e demais parâmetros para variáveis de ambiente, sem publicar segredos no repositório.
+*Implementado: workflow do GitHub Actions acionado por push e Pull Request, com etapas de build e testes. Falhas nos testes reprovam a pipeline*.
 
 ---
 
@@ -181,14 +177,13 @@ Atualmente a conexão com o banco usa os valores de desenvolvimento definidos em
 
 ---
 
-## 🗓️ Marcos do projeto
+## Marcos do projeto
 
 | Marco | Entrega | Situação |
 | :--- | :--- | :--- |
-| **E0** | Histórias de usuário e Product Backlog | Em andamento |
-| **E1** | Git e estrutura: repositório, arquitetura inicial e cadastros básicos | Em andamento |
+| **E0** | Histórias de usuário e Product Backlog | Concluído |
+| **E1** | Git e estrutura: repositório, arquitetura inicial e cadastros básicos | Concluído |
 | **E2** | Núcleo funcional: upload, extração, associação e persistência | Pendente |
-| **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Pendente |
+| **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Concluído |
 | **E4** | Containers: ambiente reproduzível e parametrizado | Pendente |
 | **E5** | Operação e apresentação: logs, documentação e fluxo completo | Pendente |
-
