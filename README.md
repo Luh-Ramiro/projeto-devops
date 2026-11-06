@@ -22,8 +22,8 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 | Vínculo entre item do fornecedor e produto interno | Planejado |
 | Importação de PDF, extração e conferência | Planejado |
 | Histórico de importações e comparação de preços | Planejado |
-| Testes automatizados | Planejado |
-| Pipeline de CI (GitHub Actions) | Planejado |
+| Testes automatizados | Concluído |
+| Pipeline de CI (GitHub Actions) | Concluído |
 | Aplicação conteinerizada (`Dockerfile`) | Planejado |
 | Logs de importação | Planejado |
 
