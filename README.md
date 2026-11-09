@@ -18,10 +18,10 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 | Banco de dados via Docker Compose | Concluído |
 | Cadastro de produtos (`/produtos`) | Concluído (criar e listar) |
 | Cadastro de fornecedores (`/fornecedores`) | Concluído (criar e listar) |
-| Edição de produtos e consulta por id | Planejado |
-| Vínculo entre item do fornecedor e produto interno | Planejado |
-| Importação de PDF, extração e conferência | Planejado |
-| Histórico de importações e comparação de preços | Planejado |
+| Edição de produtos e consulta por id | Concluído |
+| Vínculo entre item do fornecedor e produto interno | Concluído |
+| Importação de PDF, extração e conferência | Concluído |
+| Histórico de importações e comparação de preços | Concluído |
 | Testes automatizados | Concluído |
 | Pipeline de CI (GitHub Actions) | Concluído |
 | Aplicação conteinerizada (`Dockerfile`) | Planejado |
