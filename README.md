@@ -10,23 +10,22 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ---
 
-## 📌 Status atual (marco E1)
+📌 Status atual (marco E1)
 
 | Item | Situação |
 | :--- | :--- |
 | Estrutura do projeto (Spring Boot + JPA + PostgreSQL) | Concluído |
 | Banco de dados via Docker Compose | Concluído |
-| Cadastro de produtos (`/produtos`) | Concluído (criar e listar) |
-| Cadastro de fornecedores (`/fornecedores`) | Concluído (criar e listar) |
+| Cadastro de produtos ( `/produtos` ) | Concluído (criar, listar, buscar por id e atualizar) |
+| Cadastro de fornecedores ( `/fornecedores` ) | Concluído (criar e listar) |
 | Edição de produtos e consulta por id | Concluído |
 | Vínculo entre item do fornecedor e produto interno | Concluído |
 | Importação de PDF, extração e conferência | Concluído |
-| Histórico de importações e comparação de preços | Concluído |
+| Histórico de importação e comparação de preços | Concluído |
 | Testes automatizados | Concluído |
 | Pipeline de CI (GitHub Actions) | Concluído |
-| Aplicação conteinerizada (`Dockerfile`) | Planejado |
+| Aplicação conteinerizada ( `Dockerfile` ) | Planejado |
 | Logs de importação | Planejado |
-
 ---
 
 ## 🛠️ Tecnologias
