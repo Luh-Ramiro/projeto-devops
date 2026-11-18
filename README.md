@@ -12,8 +12,9 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 📌 Status atual (marco E1)
 
+
 | Item | Situação |
-| :--- | :--- |
+|------|----------|
 | Estrutura do projeto (Spring Boot + JPA + PostgreSQL) | Concluído |
 | Banco de dados via Docker Compose | Concluído |
 | Cadastro de produtos ( `/produtos` ) | Concluído (criar, listar, buscar por id e atualizar) |
@@ -24,7 +25,7 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 | Histórico de importação e comparação de preços | Concluído |
 | Testes automatizados | Concluído |
 | Pipeline de CI (GitHub Actions) | Concluído |
-| | Aplicação conteinerizada ( `Dockerfile` ) | Concluído | 
+| Aplicação conteinerizada ( `Dockerfile` ) | Concluído |
 | Logs de importação | Planejado |
 ---
 
