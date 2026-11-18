@@ -106,6 +106,7 @@ A API fica disponível em `http://localhost:8080`. Para parar, use `Ctrl + C` (o
 | **POST** | `/produtos` | Cadastra um produto |
 | **GET** | `/fornecedores` | Lista os fornecedores |
 | **POST** | `/fornecedores` | Cadastra um fornecedor |
+| **POST** | `/api/pdf/upload` | Importa um PDF de preços (parâmetros `file` e `fornecedorId`) e grava os preços dos produtos encontrados |
 
 ### Exemplo: Cadastrar um produto
 
@@ -149,6 +150,8 @@ src/
 │   ├── java/com/uniesp/devops/
 │   │   ├── MonitoramentoPrecosApplication.java
 │   │   ├── fornecedor/      # entidade, repository e controller
+│   │   ├── pdf/             # upload, extração do texto e importação dos preços
+│   │   ├── precofornecedor/ # entidade, repository, service e controller
 │   │   └── produto/         # entidade, repository e controller
 │   └── resources/
 │       └── application.properties
@@ -195,7 +198,7 @@ No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL
 | :--- | :--- | :--- |
 | **E0** | Histórias de usuário e Product Backlog | Concluído |
 | **E1** | Git e estrutura: repositório, arquitetura inicial e cadastros básicos | Concluído |
-| **E2** | Núcleo funcional: upload, extração, associação e persistência | Pendente |
+| **E2** | Núcleo funcional: upload, extração, associação e persistência | Concluído |
 | **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Concluído |
 | **E4** | Containers: ambiente reproduzível e parametrizado | Pendente |
 | **E5** | Operação e apresentação: logs, documentação e fluxo completo | Pendente |
