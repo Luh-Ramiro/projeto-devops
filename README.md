@@ -53,9 +53,10 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ### 1. Clonar o repositório
 
-bash
-git clone https://github.com/Luh-Ramiro/projeto-devops.git
+```bash
+git clone [https://github.com/Luh-Ramiro/projeto-devops.git](https://github.com/Luh-Ramiro/projeto-devops.git)
 cd projeto-devops
+```
 
 ### 2. Subir o banco de dados
 
@@ -71,13 +72,12 @@ docker ps
 
 ### 3. Subir a aplicação
 
-bash
+```bash
 ./mvnw spring-boot:run
 
+A API fica disponível em http://localhost:8080. Na primeira execução o Maven baixa as dependências, o que pode levar alguns minutos. Se aparecer "permission denied" no mvnw, rode chmod +x mvnw.
 
-A API fica disponível em `http://localhost:8080`. Na primeira execução o Maven baixa as dependências, o que pode levar alguns minutos. Se aparecer "permission denied" no `mvnw`, rode `chmod +x mvnw`.
-
-As tabelas são criadas automaticamente pelo Hibernate (`spring.jpa.hibernate.ddl-auto=update`).
+As tabelas são criadas automaticamente pelo Hibernate (spring.jpa.hibernate.ddl-auto=update).
 
 ### 4. Testar os endpoints
 O arquivo `src/teste.http` reúne requisições prontas, que podem ser executadas diretamente pelo IntelliJ IDEA. Também é possível usar `curl`:
@@ -85,7 +85,6 @@ O arquivo `src/teste.http` reúne requisições prontas, que podem ser executada
 bash
 curl http://localhost:8080/produtos
 curl http://localhost:8080/fornecedores
-
 ---
 
 ### Executar com Docker (aplicação + banco)
