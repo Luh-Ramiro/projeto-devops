@@ -82,10 +82,9 @@ As tabelas são criadas automaticamente pelo Hibernate (spring.jpa.hibernate.ddl
 ### 4. Testar os endpoints
 O arquivo `src/teste.http` reúne requisições prontas, que podem ser executadas diretamente pelo IntelliJ IDEA. Também é possível usar `curl`:
 
-bash
+```bash
 curl http://localhost:8080/produtos
 curl http://localhost:8080/fornecedores
----
 
 ### Executar com Docker (aplicação + banco)
 
