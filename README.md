@@ -24,7 +24,7 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 | Histórico de importação e comparação de preços | Concluído |
 | Testes automatizados | Concluído |
 | Pipeline de CI (GitHub Actions) | Concluído |
-| Aplicação conteinerizada ( `Dockerfile` ) | Planejado |
+| | Aplicação conteinerizada ( `Dockerfile` ) | Concluído | 
 | Logs de importação | Planejado |
 ---
 
@@ -58,13 +58,15 @@ cd projeto-devops
 
 ### 2. Subir o banco de dados
 
-bash
-docker compose up -d
+```bash
+docker compose up -d postgres
+```
 
 Isso inicia um container PostgreSQL na porta `5432`. Para conferir:
 
-bash
+```bash
 docker ps
+```
 
 ### 3. Subir a aplicação
 
@@ -84,6 +86,16 @@ curl http://localhost:8080/produtos
 curl http://localhost:8080/fornecedores
 
 ---
+
+### Executar com Docker (aplicação + banco)
+
+Também é possível subir a aplicação e o banco juntos, sem precisar do JDK instalado:
+
+```bash
+docker compose up --build
+```
+
+A API fica disponível em `http://localhost:8080`. Para parar, use `Ctrl + C` (ou `docker compose down` se tiver subido com `-d`).
 
 ## 🔌 Endpoints disponíveis
 
@@ -141,10 +153,9 @@ src/
 │       └── application.properties
 ├── test/                    # testes automatizados
 └── teste.http               # requisições de exemplo
-docker-compose.yml           # serviços de infraestrutura (PostgreSQL)
+Dockerfile                   # imagem da aplicação (build multi-stage com Maven e JRE 17)
+docker-compose.yml           # serviços: PostgreSQL e aplicação
 pom.xml
-
----
 
 ## 🧪 Testes
 
@@ -161,9 +172,9 @@ Implementado: workflow do GitHub Actions acionado por `push` e `Pull Request`, c
 
 ## ⚙️ Configuração e variáveis de ambiente
 
-Atualmente a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
+Fora do Docker, a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
 
-*Implementado: workflow do GitHub Actions acionado por push e Pull Request, com etapas de build e testes. Falhas nos testes reprovam a pipeline*.
+No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL` apontando para o serviço `postgres`, que sobrescreve a URL do `application.properties` dentro do container.
 
 ---
 
