@@ -143,7 +143,7 @@ Content-Type: application/json
 
 ## 🗂️ Estrutura do projeto
 
-text
+```text
 src/
 ├── main/
 │   ├── java/com/uniesp/devops/
@@ -157,6 +157,7 @@ src/
 Dockerfile                   # imagem da aplicação (build multi-stage com Maven e JRE 17)
 docker-compose.yml           # serviços: PostgreSQL e aplicação
 pom.xml
+```
 
 ## 🧪 Testes
 
