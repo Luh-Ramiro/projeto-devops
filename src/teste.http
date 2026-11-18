@@ -7,7 +7,7 @@ POST http://localhost:8080/produtos
 Content-Type: application/json
 
 {
-  "codigo": "PROD005",
+  "codigo": "PROD006",
   "nome": "Café Expresso",
   "categoria": "Bebidas",
   "unidade": "un",
@@ -18,7 +18,37 @@ Content-Type: application/json
   "status": "ATIVO"
 }
 
+### Criar produto ACUCAR DE COCO
+POST http://localhost:8080/produtos
+Content-Type: application/json
 
+{
+  "codigo": "PROD010",
+  "nome": "ACUCAR DE COCO",
+  "categoria": "Mercearia",
+  "unidade": "KG",
+  "precoCompra": 30.00,
+  "precoVenda": 40.00,
+  "estoqueAtual": 0,
+  "estoqueMinimo": 0,
+  "status": "ATIVO"
+}
+
+### Criar produto DOCANTE STEVIA COLOR ANDINA 40G
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "codigo": "PROD011",
+  "nome": "DOCANTE STEVIA COLOR ANDINA 40G",
+  "categoria": "Mercearia",
+  "unidade": "UN",
+  "precoCompra": 70.00,
+  "precoVenda": 90.00,
+  "estoqueAtual": 0,
+  "estoqueMinimo": 0,
+  "status": "ATIVO"
+}
 
 ### Listar fornecedores (GET)
 GET http://localhost:8080/fornecedores
@@ -69,13 +99,32 @@ Content-Type: application/json
   "precoUnitario": 10.50
 }
 
-### Testar Upload de PDF
+### Testar Upload de PDF - Fornecedor 1
 POST http://localhost:8080/api/pdf/upload
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="file"; filename="documento.pdf"
+Content-Disposition: form-data; name="file"; filename="Fornecedor_1.pdf"
 Content-Type: application/pdf
 
-< ./main/resources/boleto.pdf
+< ./main/resources/Fornecedor_1.pdf
+--boundary
+Content-Disposition: form-data; name="fornecedorId"
+
+1
+--boundary--
+
+### Testar Upload de PDF - Fornecedor 2
+POST http://localhost:8080/api/pdf/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="Fornecedor_2.pdf"
+Content-Type: application/pdf
+
+< ./main/resources/Fornecedor_2.pdf
+--boundary
+Content-Disposition: form-data; name="fornecedorId"
+
+2
 --boundary--

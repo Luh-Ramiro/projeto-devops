@@ -1,17 +1,25 @@
 # Comentário de teste para o PR
-       services:
-         postgres:
-           image: postgres:15-alpine
-           container_name: uniesp_devops_db
-           environment:
-             POSTGRES_DB: monitoramento_precos
-             POSTGRES_USER: postgres
-             POSTGRES_PASSWORD: postgres
-           ports:
-             - "5432:5432"
-           volumes:
-             - pgdata:/var/lib/postgresql/data
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: uniesp_devops_db
+    environment:
+      POSTGRES_DB: monitoramento_precos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
-       volumes:
-         pgdata:
-   
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/monitoramento_precos
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
