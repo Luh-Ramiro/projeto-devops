@@ -25,6 +25,9 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 | Histórico de importação e comparação de preços | Concluído |
 | Testes automatizados | Concluído |
 | Pipeline de CI (GitHub Actions) | Concluído |
+| Aplicação conteinerizada (`Dockerfile`) | Concluído |
+| Logs de importação | Planejado |
+
 | Aplicação conteinerizada ( `Dockerfile` ) | Concluído |
 | Logs de importação | Concluído |
 ---
