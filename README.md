@@ -183,7 +183,7 @@ Atualmente a conexão com o banco usa os valores de desenvolvimento definidos em
 | :--- | :--- | :--- |
 | **E0** | Histórias de usuário e Product Backlog | Concluído |
 | **E1** | Git e estrutura: repositório, arquitetura inicial e cadastros básicos | Concluído |
-| **E2** | Núcleo funcional: upload, extração, associação e persistência | Pendente |
+| **E2** | Núcleo funcional: upload, extração, associação e persistência | Concluído |
 | **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Concluído |
-| **E4** | Containers: ambiente reproduzível e parametrizado | Pendente |
+| **E4** | Containers: ambiente reproduzível e parametrizado | Concluído |
 | **E5** | Operação e apresentação: logs, documentação e fluxo completo | Pendente |
