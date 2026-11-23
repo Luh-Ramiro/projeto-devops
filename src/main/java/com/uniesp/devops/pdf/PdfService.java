@@ -11,6 +11,8 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,6 +24,8 @@ import java.util.Optional;
 
 @Service
 public class PdfService {
+    private static final Logger log =
+            LoggerFactory.getLogger(PdfService.class);
 
     @Autowired
     private FornecedorService fornecedorService;
@@ -33,18 +37,41 @@ public class PdfService {
     private PrecoFornecedorService precoFornecedorService;
 
     public String extrairTextoDePdf(MultipartFile file) {
+
+        long inicio = System.currentTimeMillis();
+
+        log.info("Iniciando extração do PDF: {}",
+                file.getOriginalFilename());
+
         try {
             byte[] bytes = file.getBytes();
-            org.apache.pdfbox.pdmodel.PDDocument documento = Loader.loadPDF(bytes);
 
-            PDFTextStripper stripper = new PDFTextStripper();
-            String textoExtraido = stripper.getText(documento);
+            try (org.apache.pdfbox.pdmodel.PDDocument documento =
+                         Loader.loadPDF(bytes)) {
 
-            documento.close();
-            return textoExtraido;
+                PDFTextStripper stripper = new PDFTextStripper();
+
+                String textoExtraido = stripper.getText(documento);
+
+                long duracao = System.currentTimeMillis() - inicio;
+
+                log.info(
+                        "PDF processado com sucesso: {} | Caracteres extraídos: {} | Duração: {} ms",
+                        file.getOriginalFilename(),
+                        textoExtraido.length(),
+                        duracao
+                );
+
+                return textoExtraido;
+            }
 
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao processar o ficheiro PDF: " + e.getMessage());
+
+            log.error("Erro ao processar PDF: {}",
+                    file.getOriginalFilename(), e);
+
+            throw new RuntimeException(
+                    "Erro ao processar o ficheiro PDF: " + e.getMessage(), e);
         }
     }
 
