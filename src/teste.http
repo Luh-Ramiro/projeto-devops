@@ -18,25 +18,6 @@ Content-Type: application/json
   "status": "ATIVO"
 }
 
-### Criar produto ACUCAR DE COCO
-POST http://localhost:8080/produtos
-Content-Type: application/json
-
-{
-  "codigo": "PROD010",
-  "nome": "ACUCAR DE COCO",
-  "categoria": "Mercearia",
-  "unidade": "KG",
-  "precoCompra": 30.00,
-  "precoVenda": 40.00,
-  "estoqueAtual": 0,
-  "estoqueMinimo": 0,
-  "status": "ATIVO"
-}
-
-### Criar produto DOCANTE STEVIA COLOR ANDINA 40G
-POST http://localhost:8080/produtos
-Content-Type: application/json
 
 {
   "codigo": "PROD011",
@@ -53,18 +34,21 @@ Content-Type: application/json
 ### Listar fornecedores (GET)
 GET http://localhost:8080/fornecedores
 
+
 ### Criar um fornecedor (POST)
 POST http://localhost:8080/fornecedores
 Content-Type: application/json
-
 
 {
   "nome": "Fornecedor Teste",
   "cnpj": "12.345.678/0001-90",
   "contato": "contato@fornecedor.com"
 }
+
+
 ### Consultar produto por ID
 GET http://localhost:8080/produtos/2
+
 
 ### Atualizar produto existente (por ID)
 PUT http://localhost:8080/produtos/2
@@ -82,8 +66,10 @@ Content-Type: application/json
   "status": "ATIVO"
 }
 
+
 ### Listar preços dos fornecedores (GET)
 GET http://localhost:8080/precos
+
 
 ### Criar um vínculo de preço/fornecedor (POST)
 POST http://localhost:8080/precos
@@ -99,6 +85,9 @@ Content-Type: application/json
   "precoUnitario": 10.50
 }
 
+
+### Testar Upload de PDF - Fornecedor 1
+POST http://localhost:8080/api/pdf/upload?fornecedorId=8
 ### Testar Upload de PDF - Fornecedor 1
 POST http://localhost:8080/api/pdf/upload
 Content-Type: multipart/form-data; boundary=boundary
@@ -107,6 +96,19 @@ Content-Type: multipart/form-data; boundary=boundary
 Content-Disposition: form-data; name="file"; filename="Fornecedor_1.pdf"
 Content-Type: application/pdf
 
+< ./main/resources/Fornecedor_1.pdf
+--boundary--
+
+
+### Testar Upload de PDF - Fornecedor 2
+POST http://localhost:8080/api/pdf/upload?fornecedorId=2
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="Fornecedor_2.pdf"
+Content-Type: application/pdf
+
+< ./main/resources/Fornecedor_2.pdf
 < ./main/resources/Fornecedor_1.pdf
 --boundary
 Content-Disposition: form-data; name="fornecedorId"
