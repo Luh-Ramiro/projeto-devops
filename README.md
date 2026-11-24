@@ -10,7 +10,7 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ---
 
-📌 Status atual (marco E1)
+📌 Status atual 
 
 
 | Item | Situação |
