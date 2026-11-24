@@ -12,7 +12,7 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 📌 Status atual 
 
-### 📌 Status atual (marco E4)
+### 📌 Status atual 
 
 | Item | Situação |
 |------|----------|
@@ -228,4 +228,4 @@ No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL
 | **E2** | Núcleo funcional: upload, extração, associação e persistência | Concluído |
 | **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Concluído |
 | **E4** | Containers: ambiente reproduzível e parametrizado | Concluído |
-| **E5** | Operação e apresentação: logs, documentação e fluxo completo | Pendente |
+| **E5** | Operação e apresentação: logs, documentação e fluxo completo | Concluído |
