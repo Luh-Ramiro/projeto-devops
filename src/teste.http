@@ -6,6 +6,10 @@ GET http://localhost:8080/produtos
 POST http://localhost:8080/produtos
 Content-Type: application/json
 
+### Criar produto PROD006 (POST)
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
 {
   "codigo": "PROD006",
   "nome": "Café Expresso",
@@ -18,6 +22,9 @@ Content-Type: application/json
   "status": "ATIVO"
 }
 
+### Criar produto PROD011 (POST)
+POST http://localhost:8080/produtos
+Content-Type: application/json
 
 {
   "codigo": "PROD011",
@@ -30,7 +37,6 @@ Content-Type: application/json
   "estoqueMinimo": 0,
   "status": "ATIVO"
 }
-
 ### Listar fornecedores (GET)
 GET http://localhost:8080/fornecedores
 
