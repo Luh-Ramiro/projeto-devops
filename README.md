@@ -1,8 +1,4 @@
-<div align="center">
-
 # Monitoramento de Preços
-
-</div>
 
 Uma loja de produtos naturais recebe tabelas de preços e orçamentos em PDF de diferentes fornecedores. A conferência manual dificulta detetar aumentos e reduções, consultar valores antigos e avaliar o impacto na precificação.
 
@@ -10,18 +6,18 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ---
 
-## 📌 Status atual (marco E1)
+### 📌 Status atual (marco E4)
 
 | Item | Situação |
 | :--- | :--- |
 | Estrutura do projeto (Spring Boot + JPA + PostgreSQL) | Concluído |
 | Banco de dados via Docker Compose | Concluído |
-| Cadastro de produtos (`/produtos`) | Concluído (criar e listar) |
+| Cadastro de produtos (`/produtos`) | Concluído (criar, listar, buscar por id e atualizar) |
 | Cadastro de fornecedores (`/fornecedores`) | Concluído (criar e listar) |
-| Edição de produtos e consulta por id | Planejado |
-| Vínculo entre item do fornecedor e produto interno | Planejado |
-| Importação de PDF, extração e conferência | Planejado |
-| Histórico de importações e comparação de preços | Planejado |
+| Edição de produtos e consulta por id | Concluído |
+| Vínculo entre item do fornecedor e produto interno | Concluído |
+| Importação de PDF, extração e conferência | Concluído |
+| Histórico de importação e comparação de preços | Concluído |
 | Testes automatizados | Concluído |
 | Pipeline de CI (GitHub Actions) | Concluído |
 | Aplicação conteinerizada (`Dockerfile`) | Concluído |
@@ -29,17 +25,18 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ---
 
-## 🛠️ Tecnologias
+### 🛠️ Tecnologias
 
 * Java e Spring Boot (Spring Web e Spring Data JPA)
 * PostgreSQL 15
 * Maven (com Maven Wrapper, `./mvnw`)
 * Docker e Docker Compose
 * Lombok
+* Apache PDFBox
 
 ---
 
-## 📋 Requisitos
+### 📋 Requisitos
 
 * JDK 17 ou superior
 * Docker e Docker Compose
@@ -49,135 +46,168 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ---
 
-## 🚀 Como executar
+### 🚀 Como executar
 
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 
-bash
-git clone https://github.com/Luh-Ramiro/projeto-devops.git
+```bash
+git clone [https://github.com/Luh-Ramiro/projeto-devops.git](https://github.com/Luh-Ramiro/projeto-devops.git)
 cd projeto-devops
+```
 
-### 2. Subir o banco de dados
+#### 2. Subir o banco de dados
 
-bash
-docker compose up -d
+```bash
+docker compose up -d postgres
+```
 
 Isso inicia um container PostgreSQL na porta `5432`. Para conferir:
 
-bash
+```bash
 docker ps
+```
 
-### 3. Subir a aplicação
+#### 3. Subir a aplicação
 
-bash
+```bash
 ./mvnw spring-boot:run
-
+```
 
 A API fica disponível em `http://localhost:8080`. Na primeira execução o Maven baixa as dependências, o que pode levar alguns minutos. Se aparecer "permission denied" no `mvnw`, rode `chmod +x mvnw`.
 
 As tabelas são criadas automaticamente pelo Hibernate (`spring.jpa.hibernate.ddl-auto=update`).
 
-### 4. Testar os endpoints
+#### 4. Testar os endpoints
+
 O arquivo `src/teste.http` reúne requisições prontas, que podem ser executadas diretamente pelo IntelliJ IDEA. Também é possível usar `curl`:
 
-bash
+```bash
 curl http://localhost:8080/produtos
 curl http://localhost:8080/fornecedores
+```
 
 ---
 
-## 🔌 Endpoints disponíveis
+### 🐳 Executar com Docker (aplicação + banco)
+
+Também é possível subir a aplicação e o banco juntos, sem precisar do JDK instalado:
+
+```bash
+docker compose up --build
+```
+
+A API fica disponível em `http://localhost:8080`. Para parar, use `Ctrl + C` (ou `docker compose down` se tiver subido com `-d`).
+
+---
+
+### 🔌 Endpoints disponíveis
 
 | Método | Rota | Descrição |
 | :--- | :--- | :--- |
-| **GET** | `/produtos` | Lista os produtos |
-| **POST** | `/produtos` | Cadastra um produto |
-| **GET** | `/fornecedores` | Lista os fornecedores |
-| **POST** | `/fornecedores` | Cadastra um fornecedor |
+| `GET` | `/produtos` | Lista os produtos |
+| `POST` | `/produtos` | Cadastra um produto |
+| `GET` | `/produtos/{id}` | Busca um produto por ID |
+| `PUT` | `/produtos/{id}` | Atualiza um produto existente |
+| `GET` | `/fornecedores` | Lista os fornecedores |
+| `POST` | `/fornecedores` | Cadastra um fornecedor |
+| `POST` | `/api/pdf/upload` | Importa um PDF de preços (parâmetros `file` e `fornecedorId`) e grava os preços dos produtos encontrados |
 
-### Exemplo: Cadastrar um produto
+#### Exemplo: Cadastrar um produto
 
-http
+```http
 POST http://localhost:8080/produtos
 Content-Type: application/json
 
 {
-"codigo": "PROD003",
-"nome": "Café Expresso",
-"categoria": "Bebidas",
-"unidade": "un",
-"precoCompra": 5.00,
-"precoVenda": 12.00,
-"estoqueAtual": 0,
-"estoqueMinimo": 0,
-"status": "ATIVO"
+  "codigo": "PROD003",
+  "nome": "Café Expresso",
+  "categoria": "Bebidas",
+  "unidade": "un",
+  "precoCompra": 5.00,
+  "precoVenda": 12.00,
+  "estoqueAtual": 0,
+  "estoqueMinimo": 0,
+  "status": "ATIVO"
 }
+```
 
 *O campo `codigo` é único, então um código já cadastrado não pode ser repetido.*
 
-### Exemplo: Cadastrar um fornecedor
+#### Exemplo: Cadastrar um fornecedor
 
-http
+```http
 POST http://localhost:8080/fornecedores
 Content-Type: application/json
 
 {
-"nome": "Fornecedor Teste",
-"cnpj": "12.345.678/0001-90",
-"contato": "contato@fornecedor.com"
+  "nome": "Fornecedor Teste",
+  "cnpj": "12.345.678/0001-90",
+  "contato": "contato@fornecedor.com"
 }
+```
 
 ---
 
-## 🗂️ Estrutura do projeto
+### 📁 Estrutura do projeto
 
-text
-src/
-├── main/
-│   ├── java/com/uniesp/devops/
-│   │   ├── MonitoramentoPrecosApplication.java
-│   │   ├── fornecedor/      # entidade, repository e controller
-│   │   └── produto/         # entidade, repository e controller
-│   └── resources/
-│       └── application.properties
-├── test/                    # testes automatizados
-└── teste.http               # requisições de exemplo
-docker-compose.yml           # serviços de infraestrutura (PostgreSQL)
-pom.xml
+```text
+.
+├── .github/workflows/           # pipeline de CI (GitHub Actions)
+├── src/
+│   ├── main/
+│   │   ├── java/com/uniesp/devops/
+│   │   │   ├── MonitoramentoPrecosApplication.java
+│   │   │   ├── fornecedor/      # entidade, repository e controller
+│   │   │   ├── pdf/             # upload, extração do texto e importação dos preços
+│   │   │   ├── precofornecedor/ # entidade, repository, service e controller
+│   │   │   └── produto/         # entidade, repository, service e controller
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── Fornecedor_1.pdf # ficheiro de exemplo para importação
+│   │       └── Fornecedor_2.pdf # ficheiro de exemplo para importação
+│   ├── test/                    # testes automatizados
+│   └── teste.http               # requisições de exemplo
+├── Dockerfile                   # imagem da aplicação (build multi-stage com Maven e JRE 17)
+├── docker-compose.yml           # serviços: PostgreSQL e aplicação
+└── pom.xml
+```
 
 ---
 
-## 🧪 Testes
+### 🧪 Testes
 
 Para executar os testes automatizados:
 
-bash
+```bash
 ./mvnw test
+```
 
-Os testes das regras críticas de comparação de preços (aumento, redução, igualdade, novo item, preço zero e associação pendente) serão adicionados nos próximos marcos.
+---
 
-## 🔄 Pipeline de CI
+### 🔄 Pipeline de CI
 
 Implementado: workflow do GitHub Actions acionado por `push` e `Pull Request`, com etapas de build e testes. Falhas nos testes reprovam a pipeline.
 
-## ⚙️ Configuração e variáveis de ambiente
+---
 
-Atualmente a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
+### ⚙️ Configuração e variáveis de ambiente
 
-*Implementado: workflow do GitHub Actions acionado por push e Pull Request, com etapas de build e testes. Falhas nos testes reprovam a pipeline*.
+Fora do Docker, a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
+
+No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL` apontando para o serviço `postgres`, que sobrescreve a URL do `application.properties` dentro do container.
 
 ---
 
-## 🌿 Fluxo de trabalho (Git)
+### 🌿 Fluxo de trabalho (Git)
 
-* A branch `main` recebe apenas código integrado por `Pull Request`.
-* Cada funcionalidade é desenvolvida em uma branch própria, criada a partir da `main` atualizada, com o padrão `feature/nome-da-funcionalidade`.
-* Todo `Pull Request` deve ser revisado por outro integrante da equipe antes do merge.
-* As mensagens de commit descrevem o que foi alterado (exemplo: *Adiciona CRUD de produto e fornecedor*).
+* A branch `main` recebe apenas código estável integrado via `Pull Request` a partir da `develop`.
+* Cada funcionalidade é desenvolvida em uma branch própria, criada a partir da `develop` atualizada, com o padrão `feature/nome-da-funcionalidade`.
+* Todo `Pull Request` passa pelas verificações automáticas da pipeline de CI antes do merge.
+* As mensagens de commit descrevem de forma clara o que foi alterado (exemplo: `Adiciona CRUD de produto e fornecedor`).
 
 ---
 
-## Marcos do projeto
+### 🎯 Marcos do projeto
 
 | Marco | Entrega | Situação |
 | :--- | :--- | :--- |
