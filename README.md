@@ -57,3 +57,165 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 ```bash
 git clone https://github.com/Luh-Ramiro/projeto-devops.git
 cd projeto-devops
+```
+
+### 2. Subir o banco de dados
+
+```bash
+docker compose up -d postgres
+```
+
+Isso inicia um container PostgreSQL na porta `5432`. Para conferir:
+
+```bash
+docker ps
+```
+
+### 3. Subir a aplicação
+
+```bash
+./mvnw spring-boot:run
+```
+
+A API fica disponível em `http://localhost:8080`. Na primeira execução o Maven baixa as dependências, o que pode levar alguns minutos. Se aparecer `"permission denied"` no `mvnw`, rode `chmod +x mvnw`.
+
+As tabelas são criadas automaticamente pelo Hibernate (`spring.jpa.hibernate.ddl-auto=update`).
+
+### 4. Testar os endpoints
+
+O arquivo `src/teste.http` reúne requisições prontas, que podem ser executadas diretamente pelo IntelliJ IDEA. Também é possível usar `curl`:
+
+```bash
+curl http://localhost:8080/produtos
+curl http://localhost:8080/fornecedores
+```
+
+### Executar com Docker (aplicação + banco)
+
+Também é possível subir a aplicação e o banco juntos, sem precisar do JDK instalado:
+
+```bash
+docker compose up --build
+```
+
+A API fica disponível em `http://localhost:8080`. Para parar, use `Ctrl + C` (ou `docker compose down` se tiver subido com `-d`).
+
+---
+
+🔌 **Endpoints disponíveis**
+
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `GET` | `/produtos` | Lista os produtos |
+| `POST` | `/produtos` | Cadastra um produto |
+| `GET` | `/produtos/{id}` | Busca um produto por ID |
+| `PUT` | `/produtos/{id}` | Atualiza um produto existente |
+| `GET` | `/fornecedores` | Lista os fornecedores |
+| `POST` | `/fornecedores` | Cadastra um fornecedor |
+| `POST` | `/api/pdf/upload` | Importa um PDF de preços (parâmetros `file` e `fornecedorId`) e grava os preços dos produtos encontrados |
+
+#### Exemplo: Cadastrar um produto
+
+```http
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "codigo": "PROD003",
+  "nome": "Café Expresso",
+  "categoria": "Bebidas",
+  "unidade": "un",
+  "precoCompra": 5.00,
+  "precoVenda": 12.00,
+  "estoqueAtual": 0,
+  "estoqueMinimo": 0,
+  "status": "ATIVO"
+}
+```
+
+O campo `codigo` é único, então um código já cadastrado não pode ser repetido.
+
+#### Exemplo: Cadastrar um fornecedor
+
+```http
+POST http://localhost:8080/fornecedores
+Content-Type: application/json
+
+{
+  "nome": "Fornecedor Teste",
+  "cnpj": "12.345.678/0001-90",
+  "contato": "contato@fornecedor.com"
+}
+```
+
+---
+
+📁 **Estrutura do projeto**
+
+```text
+.
+├── .github/workflows/           # pipeline de CI (GitHub Actions)
+├── src/
+│   ├── main/
+│   │   ├── java/com/uniesp/devops/
+│   │   │   ├── MonitoramentoPrecosApplication.java
+│   │   │   ├── fornecedor/      # entidade, repository e controller
+│   │   │   ├── pdf/             # upload, extração do texto e importação dos preços
+│   │   │   ├── precofornecedor/ # entidade, repository, service e controller
+│   │   │   └── produto/         # entidade, repository, service e controller
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── Fornecedor_1.pdf # ficheiro de exemplo para importação
+│   │       └── Fornecedor_2.pdf # ficheiro de exemplo para importação
+│   ├── test/                    # testes automatizados
+│   └── teste.http               # requisições de exemplo
+├── Dockerfile                   # imagem da aplicação (build multi-stage com Maven e JRE 17)
+├── docker-compose.yml           # serviços: PostgreSQL e aplicação
+└── pom.xml
+```
+
+---
+
+🧪 **Testes**
+
+Para executar os testes automatizados:
+
+```bash
+./mvnw test
+```
+
+---
+
+⚙️ **Pipeline de CI**
+
+Implementado workflow do GitHub Actions acionado por `push` e `Pull Request`, com etapas de build e testes. Falhas nos testes reprovam a pipeline.
+
+---
+
+🔐 **Configuração e variáveis de ambiente**
+
+Fora do Docker, a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
+
+No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL` apontando para o serviço `postgres`, que sobrescreve a URL do `application.properties` dentro do container.
+
+---
+
+🌿 **Fluxo de trabalho (Git)**
+
+* A branch `main` recebe apenas código integrado por `Pull Request`.
+* Cada funcionalidade é desenvolvida em uma branch própria, criada a partir da `main` atualizada, com o padrão `feature/nome-da-funcionalidade`.
+* Todo `Pull Request` deve ser revisado por outro integrante da equipe antes do merge.
+* As mensagens de commit descrevem o que foi alterado (exemplo: `Adiciona CRUD de produto e fornecedor`).
+
+---
+
+🎯 **Marcos do projeto**
+
+| Marco | Entrega | Situação |
+| :--- | :--- | :--- |
+| **E0** | Histórias de usuário e Product Backlog | Concluído |
+| **E1** | Git e estrutura: repositório, arquitetura inicial e cadastros básicos | Concluído |
+| **E2** | Núcleo funcional: upload, extração, associação e persistência | Concluído |
+| **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Concluído |
+| **E4** | Containers: ambiente reproduzível e parametrizado | Concluído |
+| **E5** | Operação e apresentação: logs, documentação e fluxo completo | Concluído |
