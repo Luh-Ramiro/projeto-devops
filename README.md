@@ -10,7 +10,6 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ---
 
-📌 Status atual 
 
 ### 📌 Status atual 
 
