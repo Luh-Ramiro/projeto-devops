@@ -12,11 +12,18 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 📌 Status atual 
 
+### 📌 Status atual (marco E4)
 
 | Item | Situação |
 |------|----------|
 | Estrutura do projeto (Spring Boot + JPA + PostgreSQL) | Concluído |
 | Banco de dados via Docker Compose | Concluído |
+| Cadastro de produtos (`/produtos`) | Concluído (criar, listar, buscar por id e atualizar) |
+| Cadastro de fornecedores (`/fornecedores`) | Concluído (criar e listar) |
+| Edição de produtos e consulta por id | Concluído |
+| Vínculo entre item do fornecedor e produto interno | Concluído |
+| Importação de PDF, extração e conferência | Concluído |
+| Histórico de importação e comparação de preços | Concluído |
 | Cadastro de produtos ( `/produtos` ) | Concluído (criar, listar, buscar por id e atualizar) |
 | Cadastro de fornecedores ( `/fornecedores` ) | Concluído (criar e listar) |
 | Edição de produtos e consulta por id | Concluído |
@@ -32,17 +39,18 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 | Logs de importação | Concluído |
 ---
 
-## 🛠️ Tecnologias
+### 🛠️ Tecnologias
 
 * Java e Spring Boot (Spring Web e Spring Data JPA)
 * PostgreSQL 15
 * Maven (com Maven Wrapper, `./mvnw`)
 * Docker e Docker Compose
 * Lombok
+* Apache PDFBox
 
 ---
 
-## 📋 Requisitos
+### 📋 Requisitos
 
 * JDK 17 ou superior
 * Docker e Docker Compose
@@ -54,14 +62,14 @@ Este sistema transforma esses PDFs em dados estruturados e rastreáveis, mantém
 
 ## 🚀 Como executar
 
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 
 ```bash
 git clone [https://github.com/Luh-Ramiro/projeto-devops.git](https://github.com/Luh-Ramiro/projeto-devops.git)
 cd projeto-devops
 ```
 
-### 2. Subir o banco de dados
+#### 2. Subir o banco de dados
 
 ```bash
 docker compose up -d postgres
@@ -69,14 +77,15 @@ docker compose up -d postgres
 
 Isso inicia um container PostgreSQL na porta `5432`. Para conferir:
 
-```bash
+bash
 docker ps
 ```
 
-### 3. Subir a aplicação
+#### 3. Subir a aplicação
 
 ```bash
 ./mvnw spring-boot:run
+```
 
 A API fica disponível em http://localhost:8080. Na primeira execução o Maven baixa as dependências, o que pode levar alguns minutos. Se aparecer "permission denied" no mvnw, rode chmod +x mvnw.
 
@@ -85,7 +94,7 @@ As tabelas são criadas automaticamente pelo Hibernate (spring.jpa.hibernate.ddl
 ### 4. Testar os endpoints
 O arquivo `src/teste.http` reúne requisições prontas, que podem ser executadas diretamente pelo IntelliJ IDEA. Também é possível usar `curl`:
 
-```bash
+bash
 curl http://localhost:8080/produtos
 curl http://localhost:8080/fornecedores
 
@@ -99,10 +108,17 @@ docker compose up --build
 
 A API fica disponível em `http://localhost:8080`. Para parar, use `Ctrl + C` (ou `docker compose down` se tiver subido com `-d`).
 
-## 🔌 Endpoints disponíveis
+### 🔌 Endpoints disponíveis
 
 | Método | Rota | Descrição |
 | :--- | :--- | :--- |
+| `GET` | `/produtos` | Lista os produtos |
+| `POST` | `/produtos` | Cadastra um produto |
+| `GET` | `/produtos/{id}` | Busca um produto por ID |
+| `PUT` | `/produtos/{id}` | Atualiza um produto existente |
+| `GET` | `/fornecedores` | Lista os fornecedores |
+| `POST` | `/fornecedores` | Cadastra um fornecedor |
+| `POST` | `/api/pdf/upload` | Importa um PDF de preços (parâmetros `file` e `fornecedorId`) e grava os preços dos produtos encontrados |
 | **GET** | `/produtos` | Lista os produtos |
 | **POST** | `/produtos` | Cadastra um produto |
 | **GET** | `/fornecedores` | Lista os fornecedores |
@@ -129,9 +145,9 @@ Content-Type: application/json
 
 *O campo `codigo` é único, então um código já cadastrado não pode ser repetido.*
 
-### Exemplo: Cadastrar um fornecedor
+#### Exemplo: Cadastrar um fornecedor
 
-http
+```http
 POST http://localhost:8080/fornecedores
 Content-Type: application/json
 
@@ -140,28 +156,35 @@ Content-Type: application/json
 "cnpj": "12.345.678/0001-90",
 "contato": "contato@fornecedor.com"
 }
+```
 
 ---
 
 ## 🗂️ Estrutura do projeto
 
 ```text
-src/
-├── main/
-│   ├── java/com/uniesp/devops/
-│   │   ├── MonitoramentoPrecosApplication.java
-│   │   ├── fornecedor/      # entidade, repository e controller
-│   │   ├── pdf/             # upload, extração do texto e importação dos preços
-│   │   ├── precofornecedor/ # entidade, repository, service e controller
-│   │   └── produto/         # entidade, repository e controller
-│   └── resources/
-│       └── application.properties
-├── test/                    # testes automatizados
-└── teste.http               # requisições de exemplo
-Dockerfile                   # imagem da aplicação (build multi-stage com Maven e JRE 17)
-docker-compose.yml           # serviços: PostgreSQL e aplicação
-pom.xml
+.
+├── .github/workflows/           # pipeline de CI (GitHub Actions)
+├── src/
+│   ├── main/
+│   │   ├── java/com/uniesp/devops/
+│   │   │   ├── MonitoramentoPrecosApplication.java
+│   │   │   ├── fornecedor/      # entidade, repository e controller
+│   │   │   ├── pdf/             # upload, extração do texto e importação dos preços
+│   │   │   ├── precofornecedor/ # entidade, repository, service e controller
+│   │   │   └── produto/         # entidade, repository, service e controller
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── Fornecedor_1.pdf # ficheiro de exemplo para importação
+│   │       └── Fornecedor_2.pdf # ficheiro de exemplo para importação
+│   ├── test/                    # testes automatizados
+│   └── teste.http               # requisições de exemplo
+├── Dockerfile                   # imagem da aplicação (build multi-stage com Maven e JRE 17)
+├── docker-compose.yml           # serviços: PostgreSQL e aplicação
+└── pom.xml
 ```
+
+---
 
 ## 🧪 Testes
 
@@ -169,14 +192,17 @@ Para executar os testes automatizados:
 
 bash
 ./mvnw test
+```
 
-Os testes das regras críticas de comparação de preços (aumento, redução, igualdade, novo item, preço zero e associação pendente) serão adicionados nos próximos marcos.
+---
 
-## 🔄 Pipeline de CI
+### 🔄 Pipeline de CI
 
 Implementado: workflow do GitHub Actions acionado por `push` e `Pull Request`, com etapas de build e testes. Falhas nos testes reprovam a pipeline.
 
-## ⚙️ Configuração e variáveis de ambiente
+---
+
+### ⚙️ Configuração e variáveis de ambiente
 
 Fora do Docker, a conexão com o banco usa os valores de desenvolvimento definidos em `src/main/resources/application.properties`. Esses valores servem apenas para o ambiente local.
 
@@ -193,7 +219,7 @@ No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL
 
 ---
 
-## Marcos do projeto
+### 🎯 Marcos do projeto
 
 | Marco | Entrega | Situação |
 | :--- | :--- | :--- |
@@ -202,4 +228,4 @@ No `docker-compose.yml`, a aplicação recebe a variável `SPRING_DATASOURCE_URL
 | **E2** | Núcleo funcional: upload, extração, associação e persistência | Concluído |
 | **E3** | Histórico e CI: comparação, casos extremos, testes e pipeline | Concluído |
 | **E4** | Containers: ambiente reproduzível e parametrizado | Concluído |
-| **E5** | Operação e apresentação: logs, documentação e fluxo completo | Concluído |
+| **E5** | Operação e apresentação: logs, documentação e fluxo completo | Pendente |
