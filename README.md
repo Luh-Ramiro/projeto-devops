@@ -2,6 +2,9 @@
 
 # Monitoramento de Preços
 
+[![Java CI with Maven](https://github.com/Luh-Ramiro/projeto-devops/actions/workflows/maven.yml/badge.svg)](https://github.com/Luh-Ramiro/projeto-devops/actions/workflows/maven.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Luh-Ramiro_projeto-devops&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Luh-Ramiro_projeto-devops)
+
 </div>
 
 Uma loja de produtos naturais recebe tabelas de preços e orçamentos em PDF de diferentes fornecedores. A conferência manual dificulta detectar aumentos e reduções, consultar valores antigos e avaliar o impacto na precificação.
